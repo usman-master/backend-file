@@ -1,11 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertCategorySchema, insertComponentSchema } from "@shared/schema";
+import { insertCategorySchema, insertComponentSchema } from "./shared/schema"; // ✅ fixed path
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  
+
   // Category routes
   app.get("/api/categories", async (req, res) => {
     try {
@@ -47,8 +47,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/components", async (req, res) => {
     try {
       const { categoryId, search } = req.query;
-      
-      if (search && typeof search === 'string') {
+
+      if (search && typeof search === "string") {
         const components = await storage.searchComponents(search);
         res.json(components);
       } else if (categoryId) {
